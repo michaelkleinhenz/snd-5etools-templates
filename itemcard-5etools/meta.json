@@ -1,0 +1,12 @@
+{
+	"name": "Item Card 5eTools",
+	"slug": "itemcard-5etools",
+	"author": "Fizzblizz",
+	"description": "",
+	"copyrightNotice": "",
+	"dataSources": [
+		"ds:Source Author+source-slug-prefix-item"
+	],
+	"config": [],
+	"images": {}
+}
