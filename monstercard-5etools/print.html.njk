@@ -98,6 +98,7 @@
         }
         body {
             font-family: 'scaly-sans', serif;
+            font-size: 1.4em
         }
         .stat-block {
             padding: 20px;
@@ -109,7 +110,7 @@
         }
         .monster-name {
             font-family: "scaly-sans-caps-bold";
-            font-size: 26px;
+            font-size: 1.5em;
             font-weight: bold;
             color: black;
             text-align: left;
@@ -197,7 +198,7 @@
 <body>
     <div class="stat-block">
         <div class="monster-name">{{ it.name.replace(" [2024]","") }}</div>
-        <div class="meta">{{ sizeExplain(it.size) }} {{ capitalizeAll(it.type) }}, {{ capitalizeAll(it.alignment) }}, {{ source() }}</div>
+        <div class="meta">{{ sizeExplain(it.size) }} {{ capitalizeAll(it.type) }}, {{ capitalizeAll(it.alignment) }}<br>{{ source() }}</div>
         
         <div class="attributes">
             <p><strong>AC</strong> <span class="number">{{ it.ac }}</span>, <strong>Initiative</strong> <span class="number">{{ it.init }}</span></p>
@@ -253,13 +254,13 @@
         </table>
         
         <div class="tidbits">
-            <p><span class="tidbit-label">Skills</span> <span class="tidbit-text">{{ it.skill }}</span></p>
-            <p><span class="tidbit-label">Senses</span> <span class="tidbit-text">{{ capitalizeAll(it.senses).replaceAll("Ft", "ft") }}</span></p>
+            {% if it.skill %}<p><span class="tidbit-label">Skills</span> <span class="tidbit-text">{{ capitalizeAll(it.skill) }}</span></p>{% endif %}
+            {% if it.senses %}<p><span class="tidbit-label">Senses</span> <span class="tidbit-text">{{ capitalizeAll(it.senses).replaceAll("Ft", "ft") }}</span></p>{% endif %}
             {% if it.vulnerable %}<p><span class="tidbit-label">Vulnerable towards </span> <span class="tidbit-text">{{ capitalizeAll(it.vulnerable) }}</span></p>{% endif %}
             {% if it.resist %}<p><span class="tidbit-label">Resistance towards</span> <span class="tidbit-text">{{ capitalizeAll(it.resist) }}</span></p>{% endif %}
             {% if it.immune %}<p><span class="tidbit-label">Immune to </span> <span class="tidbit-text">{{ capitalizeAll(it.immune) }}</span></p>{% endif %}
-            <p><span class="tidbit-label">Languages</span> <span class="tidbit-text">{{ capitalizeAll(it.languages) }}</span></p>
-            <p><span class="tidbit-label">Environment</span> <span class="tidbit-text">{{ capitalizeAll(it.environment) }}</span></p>
+            {% if it.languages %}<p><span class="tidbit-label">Languages</span> <span class="tidbit-text">{{ capitalizeAll(it.languages) }}</span></p>{% endif %}
+            {% if it.environment %}<p><span class="tidbit-label">Environment</span> <span class="tidbit-text">{{ capitalizeAll(it.environment) }}</span></p>{% endif %}
         </div>
 
         {% if it.trait %}
