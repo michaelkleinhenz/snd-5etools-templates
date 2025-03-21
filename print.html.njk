@@ -1,0 +1,301 @@
+{% macro textConv(text) %}
+    {% if text is string %}
+        {{ text }}
+    {% else %}
+        {% for t in text %}
+            {% if t != "" %}
+                {{ t }}<br>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+{% macro getSave(attribute) %}
+    {% if it.save %}
+        {% set found = false %}
+        {% set saves = it.save.split(",") %}
+        {% for saveStr in saves %}
+            {% set comp = saveStr.trim().split(" ") %}
+            {% if comp.length == 2 %}
+                {% if comp[0].toUpperCase() == attribute.toUpperCase() %}
+                    {{ comp[1] }}
+                    {% set found = true %}
+                {% endif %}
+            {% else %}
+                +0
+            {% endif %}
+        {% endfor %}
+        {% if found == false %}
+            +0
+        {% endif %}
+    {% else %}
+        +0
+    {% endif %}
+{% endmacro %}
+{% macro capitalizeAll(text) %}
+    {% if text %}
+        {% set tokens = text.trim().split(" ") %}
+        {% for token in tokens %}
+            {{ token | capitalize }}
+        {% endfor %}
+    {% endif %}
+{% endmacro %}
+{% macro sizeExplain(size) %}
+    {% if size == "S" %}Small{% endif %}
+    {% if size == "M" %}Medium{% endif %}
+    {% if size == "L" %}Large{% endif %}
+    {% if size == "H" %}Huge{% endif %}
+{% endmacro %}
+{% macro source() %}
+    {% for t in it.trait %}
+        {% if t.name == "Source" %}
+            {{ t.text }}
+        {% endif %}
+    {% endfor %}
+{% endmacro %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D Monster Stat Block</title>
+    <style>
+        @font-face {
+            font-family: "scaly-sans-caps";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans%20Caps/Scaly%20Sans%20Caps.otf") format("opentype");
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: "scaly-sans-caps-bold";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans%20Caps/Scaly%20Sans%20Caps%20Bold.otf") format("opentype");
+            font-weight: bold;
+        }
+        @font-face {
+            font-family: "scaly-sans";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans/Scaly%20Sans.otf") format("opentype");
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: "scaly-sans-italic";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans/Scaly%20Sans%20Italic.otf") format("opentype");
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: "scaly-sans-bold";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans/Scaly%20Sans%20Bold.otf") format("opentype");
+            font-weight: bold;
+        }
+        @font-face {
+            font-family: "scaly-sans-bold-italic";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans/Scaly%20Sans%20Bold%20Italic.otf") format("opentype");
+            font-weight: bold;
+        }
+        body {
+            font-family: 'scaly-sans', serif;
+        }
+        .stat-block {
+            padding: 20px;
+            border: 3px solid black;
+            border-radius: 8px;
+        }
+        .number {
+            font-family: "scaly-sans-caps";
+        }
+        .monster-name {
+            font-family: "scaly-sans-caps-bold";
+            font-size: 26px;
+            font-weight: bold;
+            color: black;
+            text-align: left;
+            border-bottom: 2px solid black;
+            padding-bottom: 5px;
+        }
+        .meta {
+            font-family: "scaly-sans-italic";
+            color: black;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .attributes p {
+            margin: 5px 0;
+        }
+        .tidbits p {
+            margin-top: 0;
+            margin-bottom: 0.3em;
+        }
+        .tidbit-label {
+            font-family: 'scaly-sans-bold', serif;
+        }
+        .tidbit-text {
+            font-family: 'scaly-sans', serif;
+        }
+        .stats-label {
+            font-family: 'scaly-sans-bold', serif;
+        }
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 10px 0;
+            margin-top: 0;
+        }
+        .stats-table th {
+            font-family: 'scaly-sans', serif;
+            font-size: 0.7em;
+            color: black;
+        }
+        .stats-table th {
+            text-align: center;
+            padding: 5px;
+        }
+        .stats-table td {
+            padding: 5px;
+            border: 1px solid black;
+        }
+        .stats-table td.empty {
+            border: 0px solid transparent;
+        }
+        .stats-table td.stats-label-left {
+            border-right: 1px solid transparent;
+        }
+        .stats-table td.stats-label-right {
+            border-right: 1px solid transparent;
+        }
+        .stats-table td.stats-value-left {
+            text-align: center;
+        }
+        .stats-table td.stats-value-right {
+            text-align: center;
+        }
+        .stats-table td.stats-valuemod-left {
+            text-align: center;
+        }
+        .stats-table td.stats-valuemod-right {
+            text-align: center;
+        }
+        .section {
+            margin-top: 10px;
+            padding-top: 5px;
+        }
+        .section-title {
+            font-family: "scaly-sans-caps";
+            font-size: 1.4em;
+            color: black;
+            border-bottom: 2px solid black;
+        }
+        .section strong {
+            font-family: "scaly-sans-bold-italic";
+        }
+    </style>
+</head>
+
+<body>
+    <div class="stat-block">
+        <div class="monster-name">{{ it.name.replace(" [2024]","") }}</div>
+        <div class="meta">{{ sizeExplain(it.size) }} {{ capitalizeAll(it.type) }}, {{ capitalizeAll(it.alignment) }}, {{ source() }}</div>
+        
+        <div class="attributes">
+            <p><strong>AC</strong> <span class="number">{{ it.ac }}</span>, <strong>Initiative</strong><span class="number">{{ it.init }}</span></p>
+            <p><strong>HP</strong> <span class="number">{{ it.hp }}</span>, <strong>CR</strong> <span class="number">{{ it.cr }}</span></p>
+            <p><strong>Speed</strong> <span class="number">{{ capitalizeAll(it.speed).replaceAll("Ft", "ft") }}</span></p>
+        </div>
+
+        <table class="stats-table">
+            <tr>
+                <th></th>
+                <th></th>
+                <th>MOD</th>
+                <th>SAVE</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>MOD</th>
+                <th>SAVE</th>
+            </tr>
+            <tr>
+                <td class="stats-label-left">STR</td>
+                <td class="stats-value-left"><span class="number">{{ it.str }}</span></td>
+                <td class="stats-valuemod-left"><span class="number">{{ it.str - 11 }}</span></td>
+                <td class="stats-valuemod-left"><span class="number">{{ getSave("str") }}</span></td>
+                <td class="empty"></td>
+                <td class="stats-label-right">INT</td>
+                <td class="stats-value-right"><span class="number">{{ it.int }}</span></td>
+                <td class="stats-valuemod-right"><span class="number">-4</span></td>
+                <td class="stats-valuemod-right"><span class="number">{{ getSave("int") }}</span></td>
+            </tr>
+            <tr>
+                <td class="stats-label-left">DEX</td>
+                <td class="stats-value-left"><span class="number">{{ it.dex }}</span></td>
+                <td class="stats-valuemod-left"><span class="number">+2</span></td>
+                <td class="stats-valuemod-left"><span class="number">{{ getSave("dex") }}</span></td>
+                <td class="empty"></td>
+                <td class="stats-label-right">WIS</td>
+                <td class="stats-value-right"><span class="number">{{ it.wis }}</span></td>
+                <td class="stats-valuemod-right"><span class="number">-4</span></td>
+                <td class="stats-valuemod-right"><span class="number">{{ getSave("wis") }}</span></td>
+            </tr>
+            <tr>
+                <td class="stats-label-left">CON</td>
+                <td class="stats-value-left"><span class="number">{{ it.con }}</span></td>
+                <td class="stats-valuemod-left"><span class="number">+2</span></td>
+                <td class="stats-valuemod-left"><span class="number">{{ getSave("con") }}</span></td>
+                <td class="empty"></td>
+                <td class="stats-label-right">CHA</td>
+                <td class="stats-value-right"><span class="number">{{ it.cha }}</span></td>
+                <td class="stats-valuemod-right"><span class="number">-4</span></td>
+                <td class="stats-valuemod-right"><span class="number">{{ getSave("cha") }}</span></td>
+            </tr>
+        </table>
+        
+        <div class="tidbits">
+            <p><span class="tidbit-label">Skills</span> <span class="tidbit-text">{{ it.skill }}</span></p>
+            <p><span class="tidbit-label">Senses</span> <span class="tidbit-text">{{ capitalizeAll(it.senses).replaceAll("Ft", "ft") }}</span></p>
+            {% if it.vulnerable %}<p><span class="tidbit-label">Vulnerable towards </span> <span class="tidbit-text">{{ capitalizeAll(it.vulnerable) }}</span></p>{% endif %}
+            {% if it.resist %}<p><span class="tidbit-label">Resistance towards</span> <span class="tidbit-text">{{ capitalizeAll(it.resist) }}</span></p>{% endif %}
+            {% if it.immune %}<p><span class="tidbit-label">Immune to </span> <span class="tidbit-text">{{ capitalizeAll(it.immune) }}</span></p>{% endif %}
+            <p><span class="tidbit-label">Languages</span> <span class="tidbit-text">{{ capitalizeAll(it.languages) }}</span></p>
+            <p><span class="tidbit-label">Environment</span> <span class="tidbit-text">{{ capitalizeAll(it.environment) }}</span></p>
+        </div>
+
+        {% if it.trait %}
+        <div class="section">
+            <div class="section-title">Traits</div>
+            {% for t in it.trait %}
+                {% if t.name != "Source" %}
+                    <p><strong>{{ t.name }}</strong> 
+                    {{ textConv(t.text) }}
+                {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
+        
+        {% if it.action %}
+        <div class="section">
+            <div class="section-title">Actions</div>
+            {% for a in it.action %}
+                <p><strong>{{ a.name }}</strong> 
+                {{ textConv(a.text) }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% if it.reaction %}
+        <div class="section">
+            <div class="section-title">Reaction</div>
+            <p><strong>{{ it.reaction.name }}</strong> 
+            {{ textConv(it.reaction.text) }}
+        </div>
+        {% endif %}
+
+        {% if it.legendary %}
+        <div class="section">
+            <div class="section-title">Legendary</div>
+            {% for t in it.legendary %}
+                <p><strong>{{ t.name }}</strong> 
+                {{ textConv(t.text) }}
+            {% endfor %}
+        </div>
+        {% endif %}
+
+    </div>
+</body>
+</html>

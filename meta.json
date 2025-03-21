@@ -1,0 +1,12 @@
+{
+	"name": "Monster Card 5eTools",
+	"slug": "monstercard-5etools",
+	"author": "Fizzblizz",
+	"description": "This is a template to display 5eTools monsters in the 2025 format. You will need to manually import the 5eTools data and set the data source accordingly.",
+	"copyrightNotice": "",
+	"dataSources": [
+		"ds:Source Author+source-slug-prefix-monster"
+	],
+	"config": null,
+	"images": {}
+}
