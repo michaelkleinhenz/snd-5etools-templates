@@ -52,7 +52,13 @@
         {% endif %}
     {% endfor %}
 {% endmacro %}
-
+{% macro mod(attrVal) %}
+    {% if ((it.str - 10) / 2) | round(0, "floor") >= 0 %}
+        +{{ ((it.str - 10) / 2) | round(0, "floor") }}
+    {% else %}
+        -{{ ((it.str - 10) / 2) | round(0, "floor") }}
+    {% endif %}
+{% endmacro %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -214,34 +220,34 @@
             <tr>
                 <td class="stats-label-left">STR</td>
                 <td class="stats-value-left"><span class="number">{{ it.str }}</span></td>
-                <td class="stats-valuemod-left"><span class="number">{{ it.str - 11 }}</span></td>
+                <td class="stats-valuemod-left"><span class="number">{{ mod(it.str) }}</span></td>
                 <td class="stats-valuemod-left"><span class="number">{{ getSave("str") }}</span></td>
                 <td class="empty"></td>
                 <td class="stats-label-right">INT</td>
                 <td class="stats-value-right"><span class="number">{{ it.int }}</span></td>
-                <td class="stats-valuemod-right"><span class="number">-4</span></td>
+                <td class="stats-valuemod-right"><span class="number">{{ mod(it.int) }}</span></td>
                 <td class="stats-valuemod-right"><span class="number">{{ getSave("int") }}</span></td>
             </tr>
             <tr>
                 <td class="stats-label-left">DEX</td>
                 <td class="stats-value-left"><span class="number">{{ it.dex }}</span></td>
-                <td class="stats-valuemod-left"><span class="number">+2</span></td>
+                <td class="stats-valuemod-left"><span class="number">{{ mod(it.dex) }}</span></td>
                 <td class="stats-valuemod-left"><span class="number">{{ getSave("dex") }}</span></td>
                 <td class="empty"></td>
                 <td class="stats-label-right">WIS</td>
                 <td class="stats-value-right"><span class="number">{{ it.wis }}</span></td>
-                <td class="stats-valuemod-right"><span class="number">-4</span></td>
+                <td class="stats-valuemod-right"><span class="number">{{ mod(it.wis) }}</span></td>
                 <td class="stats-valuemod-right"><span class="number">{{ getSave("wis") }}</span></td>
             </tr>
             <tr>
                 <td class="stats-label-left">CON</td>
                 <td class="stats-value-left"><span class="number">{{ it.con }}</span></td>
-                <td class="stats-valuemod-left"><span class="number">+2</span></td>
+                <td class="stats-valuemod-left"><span class="number">{{ mod(it.con) }}</span></td>
                 <td class="stats-valuemod-left"><span class="number">{{ getSave("con") }}</span></td>
                 <td class="empty"></td>
                 <td class="stats-label-right">CHA</td>
                 <td class="stats-value-right"><span class="number">{{ it.cha }}</span></td>
-                <td class="stats-valuemod-right"><span class="number">-4</span></td>
+                <td class="stats-valuemod-right"><span class="number">{{ mod(it.cha) }}</span></td>
                 <td class="stats-valuemod-right"><span class="number">{{ getSave("cha") }}</span></td>
             </tr>
         </table>
@@ -288,7 +294,7 @@
 
         {% if it.legendary %}
         <div class="section">
-            <div class="section-title">Legendary</div>
+            <div class="section-title">Legendary Actions</div>
             {% for t in it.legendary %}
                 <p><strong>{{ t.name }}</strong> 
                 {{ textConv(t.text) }}
@@ -299,3 +305,4 @@
     </div>
 </body>
 </html>
+
