@@ -242,7 +242,7 @@
 <body>
     <div class="stat-block">
         <div class="item-name">{{ it.name.replace(" [2024]","") }}</div>
-        <div class="meta">{{ iTypeExplain(it.type) }} - {{ it.detail | capitalize }}<br>{{ it.weight }} lb.<script>propertyStr()</script>{% if it.magic=="1" %}, Magical Item{% endif %}</div>
+        <div class="meta">{{ iTypeExplain(it.type) }} - {{ it.detail | capitalize }}<br>{% if it.weight %}{{ it.weight }} lb.{% else %}0 lb.{% endif %}<script>propertyStr()</script>{% if it.magic=="1" %}, Magical Item{% endif %}</div>
         
         {% if it.ac %}
             <div class="armorclass">
