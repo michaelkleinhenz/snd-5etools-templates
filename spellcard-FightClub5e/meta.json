@@ -1,0 +1,12 @@
+{
+	"name": "Spellcard FightClub5e",
+	"slug": "spellcard-fightclub5e",
+	"author": "Fizzblizz",
+	"description": "This is a template to display FightClub5e spells in the 2025 format. Please see the repository documentation for installation of the FightClub5e database and this template.",
+	"copyrightNotice": "MIT License",
+	"dataSources": [
+		"ds:Source Author+source-slug-prefix-spell"
+	],
+	"config": [],
+	"images": {}
+}

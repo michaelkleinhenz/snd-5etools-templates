@@ -1,0 +1,156 @@
+{% macro schoolExplain(school) %}
+    {% if school == "EV" %}Evocation{% endif %}
+    {% if school == "A" %}Abjuration{% endif %}
+    {% if school == "C" %}Conjuration{% endif %}
+    {% if school == "N" %}Necromancy{% endif %}
+    {% if school == "T" %}Transmutation{% endif %}
+    {% if school == "EN" %}Enchantment{% endif %}
+    {% if school == "D" %}Divination{% endif %}
+    {% if school == "I" %}Illusion{% endif %}
+{% endmacro %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>D&D Item Block</title>
+    <style>
+        @font-face {
+            font-family: "scaly-sans-caps";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans%20Caps/Scaly%20Sans%20Caps.otf") format("opentype");
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: "scaly-sans-caps-bold";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans%20Caps/Scaly%20Sans%20Caps%20Bold.otf") format("opentype");
+            font-weight: bold;
+        }
+        @font-face {
+            font-family: "scaly-sans";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans/Scaly%20Sans.otf") format("opentype");
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: "scaly-sans-italic";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans/Scaly%20Sans%20Italic.otf") format("opentype");
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: "scaly-sans-bold";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans/Scaly%20Sans%20Bold.otf") format("opentype");
+            font-weight: bold;
+        }
+        @font-face {
+            font-family: "scaly-sans-bold-italic";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans/Scaly%20Sans%20Bold%20Italic.otf") format("opentype");
+            font-weight: bold;
+        }
+        body {
+            font-family: 'scaly-sans', serif;
+            font-size: 1.4em
+        }
+        .stat-block {
+            padding-top: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border: 3px solid black;
+            border-radius: 8px;
+        }
+        .number {
+            font-family: "scaly-sans-caps";
+        }
+        .spell-name {
+            font-family: "scaly-sans-caps-bold";
+            font-size: 1.5em;
+            font-weight: bold;
+            color: black;
+            text-align: left;
+            border-bottom: 2px solid black;
+            padding-bottom: 5px;
+        }
+        .meta {
+            font-family: "scaly-sans-italic";
+            line-height: 1.3m;
+            color: black;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .properties {
+            font-family: "scaly-sans";
+            line-height: 1.2em;
+            color: black;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .text p {
+            margin-top: 0;
+            margin-bottom: 0.5em;
+        }
+        .source {
+            font-family: "scaly-sans-italic";
+            line-height: 1.3m;
+            color: black;
+            margin-top: 10px;
+            margin-bottom: 0;
+        }
+    </style>
+    <script>
+        function convText() {
+            const data = JSON.parse(`{{ it | json }}`);
+            const srcText = data.text;
+            document.write(`<div class="text">`);
+            if (srcText && srcText instanceof Array) {
+                srcText.forEach((textElem) => {
+                    if (!textElem.startsWith("Source: ")) {
+                        let re = /^(\w+)\./;
+                        textElem = textElem.replace(re, "<strong>$1.</strong>");
+                        re = /^(\w+ \(\w+\))\./;
+                        textElem = textElem.replace(re, "<strong>$1.</strong>");
+                        document.write(`<p>${textElem}</p>`);
+                    }
+                });
+            } else {
+                if (!srcText.startWith("Source: ")) {
+                    const re = /^.*$/;
+                    srcText = srcText.replace(re, "<strong>$1</strong>");
+                    document.write(`<p>${srcText}</p>`);
+                }
+            }
+            document.write(`</div>`);
+        }
+        function source() {
+            const data = JSON.parse(`{{ it | json }}`);
+            const srcText = data.text;
+            if (srcText && srcText instanceof Array) {
+                srcText.forEach((textElem) => {
+                    if (textElem.startsWith("Source: ")) {
+                        document.write(`<p>${textElem}</p>`);
+                    }
+                });
+            } else {
+                if (srcText.startWith("Source: ")) {
+                    document.write(`<p>${srcText}</p>`);
+                }
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="stat-block">
+        <div class="spell-name">{{ it.name.replace(" [2024]","") }}</div>
+        <div class="meta">Level {{ it.level }} {{ schoolExplain(it.school) }}{% if it.ritual == "YES" %}, Ritual{% endif %}</div>
+        
+        <div class="properties">
+            {% if it.time %}<strong>Casting Time:</strong> {{ it.time }}<br>{% endif %}
+            {% if it.range %}<strong>Range:</strong> {{ it.range }}<br>{% endif %}
+            {% if it.components %}<strong>Components:</strong> {{ it.components }}<br>{% endif %}
+            {% if it.duration %}<strong>Duration:</strong> {{ it.duration }}{% endif %}
+        </div>
+    
+        <script>convText()</script>      
+
+        <div class="source"><script>source()</script></div>
+    </div>
+</body>
+</html>
