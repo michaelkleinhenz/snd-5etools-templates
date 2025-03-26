@@ -86,7 +86,7 @@
 </head>
 
 <script>
-    let text = aiPrompt("You are a skilled dungeon master for a high-fantasy tabletop roleplaying system. You describe the given context as you would create a rich description of it for your players. Be short and concise, but also add lots of colors into your text. Write the text so it can be read to players. Write the text in {{ config.language }} language.", "{{ config.prompt }}");
+    let text = aiPrompt("You are a skilled dungeon master for a high-fantasy tabletop roleplaying system. You describe the given context as you would create a rich description of it for your players. Be short and concise, but also add lots of colors into your text. Write the text so it can be read to players. Write the text in {{ config.language }} language. Don't use any markdown or other formatting in the output, and don't use a title.", "{{ config.prompt }}");
     const regex = /\n/g;
     text = text.replace(regex, "<br>")
 </script>
