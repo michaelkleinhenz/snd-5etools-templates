@@ -1,0 +1,42 @@
+{
+	"name": "AI Fantasy Fluff Generator",
+	"slug": "ai-fluff-generator",
+	"author": "Fizzblizz",
+	"description": "This generator produces fluff text for any occasion in fantasy roleplaying scenarios. For example, if you need a quick description of a magical item, an NPC or a location. Just input your abstract description and context and it generates text that matches a high fantasy world setting.",
+	"copyrightNotice": "MIT License",
+	"passEntriesToJS": false,
+	"config": [
+		{
+			"key": "title",
+			"name": "Title",
+			"description": "The head title on the generated card.",
+			"type": "Text",
+			"default": ""
+		},
+		{
+			"key": "prompt",
+			"name": "Prompt",
+			"description": "A prompt that describes the abstract of what text you want to generate.",
+			"type": "Text",
+			"default": ""
+		},
+		{
+			"key": "language",
+			"name": "Language",
+			"description": "Language of the output.",
+			"type": "Options",
+			"default": {
+				"choices": [
+					"English",
+					"German",
+					"French",
+					"Spanish"
+				],
+				"selected": "English"
+			}
+		}
+	],
+	"images": {},
+	"dataSources": [],
+	"version": ""
+}
