@@ -203,7 +203,7 @@
         <div class="meta">{{ sizeExplain(it.size) }} {{ capitalizeAll(it.type) }}, {{ capitalizeAll(it.alignment) }}<br>{{ source() }}</div>
         
         <div class="attributes">
-            <p><strong>AC</strong> <span class="number">{{ it.ac }}</span>, <strong>Initiative</strong> <span class="number">{{ it.init }}</span></p>
+            <p><strong>AC</strong> <span class="number">{{ it.ac }}</span>{% if it.init %}, <strong>Initiative</strong> <span class="number">{{ it.init }}</span>{% endif %}</p>
             <p><strong>HP</strong> <span class="number">{{ it.hp }}</span>, <strong>CR</strong> <span class="number">{{ it.cr }}</span></p>
             <p><strong>Speed</strong> <span class="number">{{ capitalizeAll(it.speed).replaceAll("Ft", "ft") }}</span></p>
         </div>
