@@ -1,18 +1,11 @@
 {
-	"name": "AI Fantasy Fluff Generator",
-	"slug": "ai-fluff-generator",
+	"name": "AI Adventure Hook Generator",
+	"slug": "ai-adventurehook-generator",
 	"author": "Fizzblizz",
-	"description": "This generator produces fluff text for any occasion in fantasy roleplaying scenarios. For example, if you need a quick description of a magical item, an NPC or a location. Just input your abstract description and context and it generates text that matches a high fantasy world setting.",
+	"description": "This generator produces adventure hooks for any occasion in fantasy roleplaying scenarios.",
 	"copyrightNotice": "MIT License",
 	"passEntriesToJS": false,
 	"config": [
-		{
-			"key": "title",
-			"name": "Title",
-			"description": "The head title on the generated card.",
-			"type": "Text",
-			"default": ""
-		},
 		{
 			"key": "prompt",
 			"name": "Prompt",
