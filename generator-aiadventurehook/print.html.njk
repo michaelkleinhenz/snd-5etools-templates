@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fantasy Fluff</title>
+    <style>
+        @font-face {
+            font-family: "scaly-sans-caps";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans%20Caps/Scaly%20Sans%20Caps.otf") format("opentype");
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: "scaly-sans-caps-bold";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans%20Caps/Scaly%20Sans%20Caps%20Bold.otf") format("opentype");
+            font-weight: bold;
+        }
+        @font-face {
+            font-family: "scaly-sans";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans/Scaly%20Sans.otf") format("opentype");
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: "scaly-sans-italic";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans/Scaly%20Sans%20Italic.otf") format("opentype");
+            font-weight: normal;
+        }
+        @font-face {
+            font-family: "scaly-sans-bold";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans/Scaly%20Sans%20Bold.otf") format("opentype");
+            font-weight: bold;
+        }
+        @font-face {
+            font-family: "scaly-sans-bold-italic";
+            src: url("/proxy/https://github.com/jonathonf/solbera-dnd-fonts/raw/master/Scaly%20Sans/Scaly%20Sans%20Bold%20Italic.otf") format("opentype");
+            font-weight: bold;
+        }
+        body {
+            font-family: 'scaly-sans', serif;
+            font-size: 1.4em
+        }
+        .stat-block {
+            padding-top: 20px;
+            padding-left: 20px;
+            padding-right: 20px;
+            border: 3px solid black;
+            border-radius: 8px;
+        }
+        .number {
+            font-family: "scaly-sans-caps";
+        }
+        .text {
+            margin-top: 1em;
+            margin-bottom: 1em;
+            line-height: 1.2em;
+        }
+        .meta {
+            font-family: "scaly-sans-italic";
+            line-height: 1.2em;
+            color: black;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+        .section {
+            margin-top: 10px;
+            padding-top: 5px;
+        }
+        .section-title {
+            font-family: "scaly-sans-caps";
+            font-size: 1.4em;
+            color: black;
+            border-bottom: 2px solid black;
+        }
+        .section strong {
+            font-family: "scaly-sans-bold-italic";
+        }
+    </style>
+</head>
+
+<script>
+    let text = aiPrompt("You are a skilled dungeon master for a high-fantasy tabletop roleplaying system. You describe a rich adventure hook from the context given to you. Be short and concise, but also add lots of colors into your text. Write the text so it can be used as a baseline for an adventure. It needs to be written so GMs can build upon it and extend it into a larger adevnture or campaign. Write the text in {{ config.language }} language. Don't use any markdown or other formatting in the output, and don't use a title.", "{{ config.prompt }}");
+    const regex = /\n/g;
+    text = text.replace(regex, "<br>")
+</script>
+ 
+<body>
+    <div class="stat-block">
+        
+        <div class="text">
+            <script>document.write(text);</script>
+        </div>
+
+    </div>
+</body>
+</html>
